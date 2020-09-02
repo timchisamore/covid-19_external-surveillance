@@ -46,7 +46,7 @@ covid_19_cases_by_day <- function(clean_ccm_investigations_data, clean_ccm_risk_
     mutate(
       case_type = case_when(
         fct_match(as.character(investigation_number), healthcare_provider_ids) ~ "Healthcare Worker",
-        fct_match(as.character(investigation_number), long_term_care_ids) ~ "Long Term Care Resident",
+        fct_match(as.character(investigation_number), long_term_care_ids) ~ "Long Term Care or Retirement Home Resident",
         TRUE ~ "Community"
       )
     ) %>%

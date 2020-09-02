@@ -45,7 +45,7 @@ covid_19_outcomes_by_type <-
       mutate(
         case_type = case_when(
           fct_match(as.character(investigation_number), healthcare_provider_ids) ~ "Healthcare Worker",
-          fct_match(as.character(investigation_number), long_term_care_ids) ~ "Long Term Care Resident",
+          fct_match(as.character(investigation_number), long_term_care_ids) ~ "Long Term Care or Retirement Home Resident",
           TRUE ~ "Community"
         ),
         outcome = case_when(
