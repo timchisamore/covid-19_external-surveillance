@@ -3,10 +3,12 @@ plan <- drake_plan(
   raw_ccm_outcomes_data = reading_ccm_outcomes_data(file_in(!!here::here("data", "raw", "ccm_outcomes_data.csv"))),
   raw_ccm_interventions_data = reading_ccm_interventions_data(file_in(!!here::here("data", "raw", "ccm_interventions_data.csv"))),
   raw_ccm_risk_factors_data = reading_ccm_risk_factors_data(file_in(!!here::here("data", "raw", "ccm_risk_factors_data.csv"))),
+  raw_ccm_outbreaks_data = reading_ccm_outbreaks_data(file_in(!!here::here("data", "raw", "ccm_outbreaks_data.csv"))),
   clean_ccm_investigations_data = cleaning_ccm_investigations_data(raw_ccm_investigations_data),
   clean_ccm_outcomes_data = cleaning_ccm_outcomes_data(raw_ccm_outcomes_data),
   clean_ccm_interventions_data = cleaning_ccm_interventions_data(raw_ccm_interventions_data),
   clean_ccm_risk_factors_data = cleaning_ccm_risk_factors_data(raw_ccm_risk_factors_data),
+  clean_ccm_outbreaks_data = cleaning_ccm_outbreaks_data(raw_ccm_outbreaks_data),
   raw_aces_data = reading_aces_data(file_in(!!here::here("data", "raw", "aces_data.xlsx"))),
   clean_aces_data = cleaning_aces_data(raw_aces_data),
   get_aces_sheets = target(

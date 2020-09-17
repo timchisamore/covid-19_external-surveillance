@@ -32,8 +32,8 @@ generate_currently_hospitalized_ids <-
           as.character(investigation_number) %in% generate_active_ids(clean_ccm_investigations_data, clean_ccm_outcomes_data) &
           # wanted to use
           # fct_match, but not all records have intervention data so can't
-          is.na(end_date) |
-          (lubridate::ymd(end_date) > lubridate::today())
+          (is.na(end_date) |
+            (lubridate::ymd(end_date) > lubridate::today()))
       ) %>%
       pull(investigation_number)
 
