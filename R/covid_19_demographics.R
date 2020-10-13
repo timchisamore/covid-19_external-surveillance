@@ -14,7 +14,7 @@ covid_19_demographics <-
   function(clean_ccm_investigations_data) {
     table_4_data <- clean_ccm_investigations_data %>%
       mutate(
-        age_at_illness = floor(lubridate::time_length(lubridate::interval(person_client_birthdate, episode_date), "years")),
+        age_at_illness = floor(lubridate::time_length(lubridate::interval(person_client_date_of_birth, episode_date), "years")),
         age_group_at_illness = santoku::chop(age_at_illness, breaks = c(20, 45, 65, Inf), labels = c("<20", "20-44", "45-64", "65+")),
         client_gender = str_to_title(person_client_gender)
       ) %>%
