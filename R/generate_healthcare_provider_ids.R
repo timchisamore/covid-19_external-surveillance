@@ -24,15 +24,16 @@ generate_healthcare_provider_ids <-
       filter(fct_match(
         risk_factor,
         c(
-          "OCCUPATIONAL ? HEALTH CARE WORKER",
-          "OCCUPATIONAL - DOCTOR",
-          "OCCUPATIONAL - NURSE"
-          # "OCCUPATIONAL - DENTIST",
-          # "OCCUPATIONAL - DENTAL HYGIENIST",
-          # "OCCUPATIONAL - MIDWIFE",
-          # "OCCUPATIONAL - PERSONAL SUPPORT WORKER",
-          # "OCCUPATIONAL - OTHER MEDICAL TECHNICIANS",
-          # "OCCUPATIONAL - RESPIRATORY THERAPIST"
+          "HEALTH CARE WORKER",
+          "DOCTOR",
+          "NURSE"
+          # "HEALTH CARE WORKER"
+          # "DENTIST",
+          # "DENTAL HYGIENIST",
+          # "MIDWIFE",
+          # "PERSONAL SUPPORT WORKER",
+          # "OTHER MEDICAL TECHNICIANS",
+          # "RESPIRATORY THERAPIST"
         )
       )
       &
