@@ -16,7 +16,7 @@ cleaning_ccm_investigations_data <- function(raw_ccm_investigations_data) {
     janitor::remove_empty(which = "cols") %>%
     janitor::clean_names() %>%
     mutate(
-      reported_date = str_extract(reported_date, "^[0-9]{4}-[0-9]{2}-[0-9]{2}"),
+      across(.cols = contains("date"), .fns = str_extract, pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}"),
       across(.cols = contains("date"), .fns = lubridate::ymd)
     )
 

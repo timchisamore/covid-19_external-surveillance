@@ -14,7 +14,10 @@ cleaning_ccm_outbreaks_data <- function(raw_ccm_outbreaks_data) {
   clean_ccm_outbreaks_data <- raw_ccm_outbreaks_data %>%
     janitor::remove_empty(which = "cols") %>%
     janitor::clean_names() %>%
-    mutate(across(.cols = contains("date"), .fns = lubridate::ymd))
+    mutate(
+      across(.cols = contains("date"), .fns = str_extract, pattern = "^[0-9]{4}-[0-9]{2}-[0-9]{2}"),
+      across(.cols = contains("date"), .fns = lubridate::ymd)
+    )
   
   return(clean_ccm_outbreaks_data)
 }
