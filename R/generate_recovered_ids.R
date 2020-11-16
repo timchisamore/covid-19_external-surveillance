@@ -36,9 +36,14 @@ generate_recovered_ids <- function(clean_ccm_investigations_data, clean_ccm_outc
   unknown_ids <- clean_ccm_outcomes_data %>%
     filter(fct_match(outcome, "UNKNOWN")) %>%
     pull(investigation_number)
+  
+  # extracting the investigation numbers of any cases who have an outcome of ill
+  ill_ids <- clean_ccm_outcomes_data %>%
+    filter(fct_match(outcome, "ILL")) %>%
+    pull(investigation_number)
 
   # taking the union of recovered and residual efects IDs
-  recovered_ids <- union(recovered_ids, union(residual_effects_ids, union(pending_effects_ids, unknown_ids)))
+  recovered_ids <- union(recovered_ids, union(residual_effects_ids, union(pending_effects_ids, union(unknown_ids, ill_ids))))
 
   # ensuring all of our generated IDs are valid
   assert_generated_ids(investigation_numbers, recovered_ids)
