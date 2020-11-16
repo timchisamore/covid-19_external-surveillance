@@ -30,7 +30,7 @@ plan <- drake_plan(
   figure_4 = ed_visits_by_week(ed_visits),
   figure_5 = admissions_by_week(admissions),
   report = rmarkdown::render(
-    input = knitr_in(!!here::here("documents", "covid_19_surveillance.Rmd")),
-    output_file = file_out(!!here::here("documents", "covid_19_surveillance.html"))
+    input = knitr_in(!!here::here("documents", "covid_19_external_surveillance.Rmd")),
+    output_file = file_out(!!here::here("documents", "covid_19_external_surveillance.html"))
   )
 )
