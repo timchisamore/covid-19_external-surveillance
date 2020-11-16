@@ -13,7 +13,7 @@
 #' generate_institutional_outbreak_numbers(clean_ccm_outbreaks_data)
 generate_institutional_outbreak_numbers <- function(clean_ccm_outbreaks_data) {
   institutional_outbreak_numbers <- clean_ccm_outbreaks_data %>%
-    filter(str_detect(outbreak_name, "^[0-9]{4}\\s?-\\s?"),
+    filter(location_location_type %in% c("Retirement Home", "Long Term Care Home", "Hospital"),
            is.na(date_outbreak_declared_over) | outbreak_status == "Open") %>%
     pull(iphis_outbreak_number)
   
