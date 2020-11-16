@@ -47,7 +47,7 @@ assessments_by_day <- function(assessment_centre_data_cleaned) {
       x = "Date",
       y = "Number of Tests Completed",
       fill = NULL,
-      caption = "Source: Ontario Health East, Ontario MOHLTC, LGLDHU Data\nDoes not include Kemptville assessment centre data"
+      caption = "Source: Ontario Health East, Ontario MOHLTC, LGLDHU Data"
     ) +
     ggthemes::theme_economist_white() +
     theme(axis.text.x = element_text(angle = 90))
