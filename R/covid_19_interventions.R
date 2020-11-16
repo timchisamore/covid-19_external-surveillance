@@ -48,54 +48,54 @@ covid_19_interventions <-
           fct_match(as.character(investigation_number), ever_hospitalized_ids) ~ "Yes",
           TRUE ~ "No"
         ),
-        ever_ventilated = case_when(
-          fct_match(as.character(investigation_number), ever_ventilated_ids) ~ "Yes",
-          TRUE ~ "No"
-        ),
         ever_icu = case_when(
           fct_match(as.character(investigation_number), ever_icu_ids) ~ "Yes",
+          TRUE ~ "No"
+        ),
+        ever_ventilated = case_when(
+          fct_match(as.character(investigation_number), ever_ventilated_ids) ~ "Yes",
           TRUE ~ "No"
         ),
         currently_hospitalized = case_when(
           fct_match(as.character(investigation_number), currently_hospitalized_ids) ~ "Yes",
           TRUE ~ "No"
         ),
-        currently_ventilated = case_when(
-          fct_match(as.character(investigation_number), currently_ventilated_ids) ~ "Yes",
-          TRUE ~ "No"
-        ),
         currently_icu = case_when(
           fct_match(as.character(investigation_number), currently_icu_ids) ~ "Yes",
+          TRUE ~ "No"
+        ),
+        currently_ventilated = case_when(
+          fct_match(as.character(investigation_number), currently_ventilated_ids) ~ "Yes",
           TRUE ~ "No"
         )
       ) %>%
       select(
         ever_hospitalized,
-        ever_ventilated,
         ever_icu,
+        ever_ventilated,
         currently_hospitalized,
-        currently_ventilated,
-        currently_icu
+        currently_icu,
+        currently_ventilated
       )
 
     table_3 <- table_3_data %>%
       tbl_summary(
         label = list(
           ever_hospitalized ~ "Ever Hospitalized",
-          ever_ventilated ~ "Ever Ventilated",
           ever_icu ~ "Ever in ICU",
+          ever_ventilated ~ "Ever Ventilated",
           currently_hospitalized ~ "Currently Hospitalized",
-          currently_ventilated ~ "Currently Ventilated",
-          currently_icu ~ "Currently in ICU"
+          currently_icu ~ "Currently in ICU",
+          currently_ventilated ~ "Currently Ventilated"
         ),
         type = list(
           c(
             ever_hospitalized,
-            ever_ventilated,
             ever_icu,
+            ever_ventilated,
             currently_hospitalized,
-            currently_ventilated,
-            currently_icu
+            currently_icu,
+            currently_ventilated
           ) ~ "dichotomous"
         ),
         statistic = list(
@@ -114,6 +114,8 @@ covid_19_interventions <-
         style = cell_fill(color = "#EBEBEB"),
         locations = cells_column_labels(columns = everything())
       ) %>%
+      tab_footnote(footnote = "The hospital interventions we report on represent a gradient of severity, with hospitalization being the least severe and ventilation the most severe. To be ventilated, one must also be admitted to the ICU and thus also be hospitalized. However, someone can be hospitalized without being admitted to the ICU or ventilated. Therefore cases reported as being hospitalized may also appear as being in the ICU or ventilated at the same time.",
+                   locations = cells_column_labels(columns = everything())) %>%
       tab_options(table.width = "80%")
 
     return(table_3)
