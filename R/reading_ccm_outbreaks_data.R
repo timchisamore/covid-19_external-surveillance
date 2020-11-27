@@ -12,6 +12,6 @@
 #' reading_ccm_outbreaks_data(here::here("data", "raw", "ccm_outbreaks_data.csv"))
 reading_ccm_outbreaks_data <- function(path) {
   raw_ccm_outbreaks_data <- read_csv(file = path)
-  
+
   return(raw_ccm_outbreaks_data)
 }
