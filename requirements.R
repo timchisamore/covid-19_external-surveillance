@@ -12,3 +12,4 @@ set_gtsummary_theme(list(
     scales::percent(x, accuracy = 1, suffix = NULL)
   }
 ))
+here::i_am("requirements.R")
