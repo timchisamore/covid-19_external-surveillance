@@ -8,23 +8,41 @@
 #' @param clean_ccm_interventions_data a tbl_df of clean CCM interventions data
 #' @param clean_ccm_risk_factors_data a tbl_df of clean CCM risk factors data
 #' @param clean_ccm_outbreaks_data a tbl_df of clean CCM outbreaks data
+#' @param clean_municipal_conversion_data a tbl_df of clean municipal conversion data
 #'
 #' @return a tbl_df of linelist data for Tableau
 #' @export
 #'
 #' @examples
-#' getting_tableau_linelist(clean_ccm_investigations_data, clean_ccm_outcomes_data, clean_ccm_interventions_data, clean_ccm_risk_factors_data, clean_ccm_outbreaks_data)
+#' getting_tableau_linelist(clean_ccm_investigations_data, clean_ccm_outcomes_data, clean_ccm_interventions_data, clean_ccm_risk_factors_data, clean_ccm_outbreaks_data, clean_municipal_conversion_data)
 getting_tableau_linelist <-
   function(clean_ccm_investigations_data,
            clean_ccm_outcomes_data,
            clean_ccm_interventions_data,
            clean_ccm_risk_factors_data,
-           clean_ccm_outbreaks_data) {
+           clean_ccm_outbreaks_data,
+           clean_municipal_conversion_data) {
     get_tableau_linelist <- clean_ccm_investigations_data %>%
       left_join(clean_ccm_outcomes_data,
         by = "investigation_number"
       ) %>%
+      left_join(clean_municipal_conversion_data,
+        by = c(permanent_city_at_illness = "township")
+      ) %>%
+      left_join(clean_municipal_conversion_data,
+        by = c(current_city_at_illness = "township")
+      ) %>%
+      rename(
+        permanent_municipality_at_illness = "municipality.x",
+        current_municipality_at_illness = "municipality.y",
+        permanent_map_region_at_illness = "mapregion.x",
+        current_map_region_at_illness = "mapregion.y"
+      ) %>%
       mutate(
+        permanent_municipality_at_illness = fct_explicit_na(permanent_municipality_at_illness, na_level = "Unknown"),
+        current_municipality_at_illness = fct_explicit_na(current_municipality_at_illness, na_level = "Unknown"),
+        permanent_map_region_at_illness = fct_explicit_na(permanent_map_region_at_illness, na_level = "Unknown"),
+        current_map_region_at_illness = fct_explicit_na(current_map_region_at_illness, na_level = "Unknown"),
         age_at_illness = getting_age_at_illness(person_client_date_of_birth, episode_date),
         age_group_at_illness = getting_age_group_at_illness(age_at_illness),
         adjusted_outcome = getting_adjusted_outcome(outcome, status),
@@ -90,13 +108,40 @@ getting_tableau_linelist <-
         ),
         acquisition_type = combining_acquisition_type(
           investigation_number,
+          episode_date,
           epidemiologic_link_status,
           epidemiologic_linkage,
           clean_ccm_investigations_data,
           clean_ccm_outbreaks_data,
           clean_ccm_risk_factors_data
         )
-      )
+      ) %>%
+      select(investigation_number,
+             permanent_city_at_illness,
+             current_city_at_illness,
+             person_client_gender,
+             episode_date,
+             reported_date,
+             investigation_start_date,
+             permanent_municipality_at_illness,
+             permanent_map_region_at_illness,
+             current_municipality_at_illness,
+             current_map_region_at_illness,
+             age_at_illness,
+             age_group_at_illness,
+             adjusted_outcome,
+             health_care_workers,
+             ltch_or_rh_residents,
+             case_type,
+             ever_hospitalized,
+             ever_in_icu,
+             ever_ventilated,
+             ever_interventions,
+             currently_hospitalized,
+             currently_in_icu,
+             currently_ventilated,
+             currently_interventions,
+             acquisition_type)
 
     return(get_tableau_linelist)
   }
