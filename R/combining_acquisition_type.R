@@ -1,11 +1,12 @@
 #' Combining Acquisition Type
 #'
 #' This function combines the acquisition types using the epidemiologic link status field to determine
-#' whether we generate the value or use the epidemiologic linkage field. This could use work to account
-#' for poor data quality oradjusting the logic inside getting_acquisition_type to account for
-#' travel being the main source prior to 2020/04/01.
+#' whether we generate the value or use the epidemiologic linkage field. if we generate the data, episode date
+#' is used to determine the logic. Prior to 2020/04/01, we use travel > outbreak related > close contact and
+#' afterwards we use outbreak related > close contact > travel.
 #'
 #' @param investigation_number a numeric vector of investigation numbers
+#' @param episode_date a date vector of episode dates
 #' @param epidemiologic_link_status a character vector of epidemiologic link status'
 #' @param epidemiologic_linkage a character vector of epidemiologic linkages
 #' @param clean_ccm_investigations_data a tbl_df of clean CCM investigations data
@@ -16,25 +17,42 @@
 #' @export
 #'
 #' @examples
-#' combining_acquisition_type(investigation_number, epidemiologic_link_status, epidemiologic_linkage, clean_ccm_investigations_data, clean_ccm_outbreaks_data, clean_ccm_risk_factors_data)
-combining_acquisition_type <- function(investigation_number, epidemiologic_link_status, epidemiologic_linkage, clean_ccm_investigations_data, clean_ccm_outbreaks_data, clean_ccm_risk_factors_data) {
-  # lumping household contact into close contact
-  epidemiologic_linkage <- str_replace_all(epidemiologic_linkage, "Household contact", "Close contact")
-
-  # accounting for the new epidemiological link status field, if the record has a value, we use
-  # the epidemiologic linkage, if the answer is no, we use no known epi-link, if the answer
-  # is null, we use the getting_acquisition_type function to determine it.
-  combine_acquisition_type <- case_when(
-    epidemiologic_link_status == "Yes" ~ epidemiologic_linkage,
-    epidemiologic_link_status == "No" ~ "No known epi-link",
-    is.na(epidemiologic_link_status) ~
-    getting_acquisition_type(
-      investigation_number,
-      clean_ccm_investigations_data,
-      clean_ccm_outbreaks_data,
-      clean_ccm_risk_factors_data
+#' combining_acquisition_type(investigation_number, episode_date, epidemiologic_link_status, epidemiologic_linkage, clean_ccm_investigations_data, clean_ccm_outbreaks_data, clean_ccm_risk_factors_data)
+combining_acquisition_type <-
+  function(investigation_number,
+           episode_date,
+           epidemiologic_link_status,
+           epidemiologic_linkage,
+           clean_ccm_investigations_data,
+           clean_ccm_outbreaks_data,
+           clean_ccm_risk_factors_data) {
+    # lumping household contact into close contact
+    epidemiologic_linkage <-
+      str_replace_all(epidemiologic_linkage, "Household contact", "Close contact")
+    
+    # accounting for the new epidemiological link status field, if the record has a value, we use
+    # the epidemiologic linkage, if the answer is no, we use no known epi-link, if the answer
+    # is null, we use the getting_acquisition_type functions to determine it.
+    combine_acquisition_type <- case_when(
+      epidemiologic_link_status == "Yes" ~ epidemiologic_linkage,
+      epidemiologic_link_status == "No" ~ "No known epi-link",
+      is.na(epidemiologic_link_status) &
+        episode_date < lubridate::ymd("2020-04-01") ~
+        getting_early_acquisition_type(
+          investigation_number,
+          clean_ccm_investigations_data,
+          clean_ccm_outbreaks_data,
+          clean_ccm_risk_factors_data
+        ),
+      is.na(epidemiologic_link_status) &
+        episode_date >= lubridate::ymd("2020-04-01") ~
+        getting_late_acquisition_type(
+          investigation_number,
+          clean_ccm_investigations_data,
+          clean_ccm_outbreaks_data,
+          clean_ccm_risk_factors_data
+        )
     )
-  )
-
-  return(combine_acquisition_type)
-}
+    
+    return(combine_acquisition_type)
+  }
