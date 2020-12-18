@@ -1,4 +1,4 @@
-This R project takes Case and Contact Managment (CCM), Acute Care Enhanced Surveillance (ACES), and Ministry of Health and Long-Term Care (MOHLTC) daily bed ceensus (DBC) data and produces an HTML COVID-19 surveillance report using RMarkdown.
+This R project takes Case and Contact Managment (CCM), Acute Care Enhanced Surveillance (ACES), and Ministry of Health and Long-Term Care (MOHLTC) daily bed census (DBC) data and produces an HTML COVID-19 surveillance report using RMarkdown.
 
 The intentions of the project are to automate the process and to make dissemination of the product easier. We used the drake package to manage our workflow as there is quite a bit going on in terms of data cleaning and analysis with multiple datasources. we also use the renv package to capture the packages versions being used to ensure long-term stability of the report.
 
