@@ -13,7 +13,7 @@
 getting_active_institutional_outbreak_names <- function(clean_ccm_outbreaks_data) {
   get_active_institutional_outbreak_names <- clean_ccm_outbreaks_data %>%
     filter(
-      location_location_type %in% c("Retirement Home", "Long Term Care Home", "Hospital", "Licensed Child Care Centre"),
+      location_location_type %in% c("Retirement Home", "Long Term Care Home", "Hospital", "Child Care Facility / Daycare - Licenced"),
       is.na(date_outbreak_declared_over) | outbreak_status == "Open"
     ) %>%
     pull(outbreak_name)
