@@ -1,7 +1,8 @@
-#' Getting Tableau Linelist
+#' Getting Internal Tableau Linelist
 #'
 #' This function takes the clean CCM investigations, outcomes, interventions, and risk factors
-#' data and produces a linelist intended for Tableau.
+#' data and produces a linelist intended for Tableau.This will be the internal report
+#' that includes cases to the time the report was pulled.
 #'
 #' @param clean_ccm_investigations_data a tbl_df of clean CCM investigations data
 #' @param clean_ccm_outcomes_data a tbl_df of clean CCM outcomes data
@@ -14,15 +15,15 @@
 #' @export
 #'
 #' @examples
-#' getting_tableau_linelist(clean_ccm_investigations_data, clean_ccm_outcomes_data, clean_ccm_interventions_data, clean_ccm_risk_factors_data, clean_ccm_outbreaks_data, clean_municipal_conversion_data)
-getting_tableau_linelist <-
+#' getting_internal_tableau_linelist(clean_ccm_investigations_data, clean_ccm_outcomes_data, clean_ccm_interventions_data, clean_ccm_risk_factors_data, clean_ccm_outbreaks_data, clean_municipal_conversion_data)
+getting_internal_tableau_linelist <-
   function(clean_ccm_investigations_data,
            clean_ccm_outcomes_data,
            clean_ccm_interventions_data,
            clean_ccm_risk_factors_data,
            clean_ccm_outbreaks_data,
            clean_municipal_conversion_data) {
-    get_tableau_linelist <- clean_ccm_investigations_data %>%
+    get_internal_tableau_linelist <- clean_ccm_investigations_data %>%
       left_join(clean_ccm_outcomes_data,
         by = "investigation_number"
       ) %>%
@@ -143,5 +144,5 @@ getting_tableau_linelist <-
              currently_interventions,
              acquisition_type)
 
-    return(get_tableau_linelist)
+    return(get_internal_tableau_linelist)
   }
