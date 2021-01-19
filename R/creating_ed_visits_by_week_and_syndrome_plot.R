@@ -1,52 +1,22 @@
-#' Getting ED Visits by Week and Syndrome Plot
+#' Creating ED Visits by Week and Syndrome Plot
 #'
 #' This function takes the clean ACES ED visits data and produces a plot of
 #' aggregate ED visits by week and syndrome. It makes use of the
 #' aggregating_ed_visits_by_week_and_syndrome function.
 #'
-#' @param clean_aces_ed_visits_data a tbl_df of clean ACES ED visits data
+#' @param clean_aces_ed_visits_data A `tbl_df` of clean ACES ED visits data.
 #'
-#' @return a {ggplot} of aggregate ED visits by week and syndrome
+#' @return A `ggplot` of aggregate ED visits by week and syndrome.
 #' @export
 #'
 #' @examples
-#' getting_ed_visits_by_week_and_syndrome_plot(clean_aces_ed_visits_data)
-getting_ed_visits_by_week_and_syndrome_plot <-
+#' `creating_ed_visits_by_week_and_syndrome_plot(clean_aces_ed_visits_data)`
+creating_ed_visits_by_week_and_syndrome_plot <-
   function(clean_aces_ed_visits_data) {
-    palette <- c(
-      rgb(
-        red = 149,
-        green = 55,
-        blue = 53,
-        maxColorValue = 255
-      ),
-      rgb(
-        red = 228,
-        green = 108,
-        blue = 10,
-        maxColorValue = 255
-      ),
-      rgb(
-        red = 0,
-        green = 112,
-        blue = 192,
-        maxColorValue = 255
-      ),
-      rgb(
-        red = 0,
-        green = 176,
-        blue = 80,
-        maxColorValue = 255
-      ),
-      rgb(
-        red = 255,
-        green = 192,
-        blue = 0,
-        maxColorValue = 255
-      )
-    )
+    # this palette was developed internally by staff
+    palette <- getting_palette()
 
-    get_ed_visits_by_week_and_syndrome_plot <-
+    create_ed_visits_by_week_and_syndrome_plot <-
       aggregating_ed_visits_by_week_and_syndrome(clean_aces_ed_visits_data) %>%
       ggplot(aes(
         x = week,
@@ -84,5 +54,5 @@ getting_ed_visits_by_week_and_syndrome_plot <-
       ggthemes::theme_economist_white() +
       theme(axis.text.x = element_text(angle = 90))
 
-    return(get_ed_visits_by_week_and_syndrome_plot)
+    return(create_ed_visits_by_week_and_syndrome_plot)
   }

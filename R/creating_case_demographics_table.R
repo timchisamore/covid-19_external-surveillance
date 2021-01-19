@@ -1,18 +1,18 @@
-#' Getting Case Demographics Table
+#' Creating Case Demographics Table
 #'
 #' This function takes the COVID-19 tableau linelist and produces a table of the case demographics, including
 #' median and range of numeric age, number and proportion of age groups, and number and proportion of gender.
 #' Note that we use larger age groupings than in the COVID-19 tableau linelist data.
 #'
-#' @param get_tableau_linelist a tbl_df of COVID-19 linelist data
+#' @param create_external_tableau_linelist_data A `tbl_df` of COVID-19 external Tableau linelist data.
 #'
-#' @return a {gt} object of COVID-19 case demographics
+#' @return A `gt` object of COVID-19 case demographics.
 #' @export
 #'
 #' @examples
-#' getting_case_demographics_table(get_tableau_linelist)
-getting_case_demographics_table <- function(get_tableau_linelist) {
-  get_case_demographics_table <- get_tableau_linelist %>%
+#' `creating_case_demographics_table(create_external_tableau_linelist_data)`
+creating_case_demographics_table <- function(create_external_tableau_linelist_data) {
+  create_case_demographics_table <- create_external_tableau_linelist_data %>%
     mutate(age_group_at_illness = fct_collapse(age_group_at_illness,
       `<20` = c("00-04", "05-09", "10-14", "15-19"),
       `20-44` = c("20-24", "25-29", "30-34", "35-39", "40-44"),
@@ -51,5 +51,5 @@ getting_case_demographics_table <- function(get_tableau_linelist) {
     ) %>%
     tab_options(table.width = "80%")
 
-  return(get_case_demographics_table)
+  return(create_case_demographics_table)
 }

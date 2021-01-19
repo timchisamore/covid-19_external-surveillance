@@ -1,18 +1,19 @@
-#' Getting Cases by Reported Date and Case Type Plot
+#' Creating Cases by Reported Date and Case Type Plot
 #'
 #' This function takes the get_tableau_linelist data and produces a plot of the
 #' number of COVID-19 cases by reported date and case ttype. It uses the
 #' aggregating_cases_by_reported_date_and_case_type function to generate
 #' the data.
 #'
-#' @param get_tableau_linelist a tbl_df of COVID-19 linelist data
+#' @param create_external_tableau_linelist_data A `tbl_df` of external Tableau
+#' linelist data.
 #'
-#' @return a {ggplot} of cases by reported date and case type
+#' @return A `ggplot` of cases by reported date and case type.
 #' @export
 #'
 #' @examples
-#' getting_cases_by_reported_date_and_case_type_plot(get_tableau_linelist)
-getting_cases_by_reported_date_and_case_type_plot <- function(get_tableau_linelist) {
+#' creating_cases_by_reported_date_and_case_type_plot(create_external_tableau_linelist_data)
+creating_cases_by_reported_date_and_case_type_plot <- function(create_external_tableau_linelist_data) {
   palette <- c(
     rgb(
       red = 255,
@@ -34,7 +35,7 @@ getting_cases_by_reported_date_and_case_type_plot <- function(get_tableau_lineli
     )
   )
 
-  get_cases_by_reported_date_and_case_type_plot <- aggregating_cases_by_reported_date_and_case_type(get_tableau_linelist) %>%
+  create_cases_by_reported_date_and_case_type_plot <- aggregating_cases_by_reported_date_and_case_type(create_external_tableau_linelist_data) %>%
     ggplot(aes(
       x = reported_date,
       y = n,
@@ -68,5 +69,5 @@ getting_cases_by_reported_date_and_case_type_plot <- function(get_tableau_lineli
     ggthemes::theme_economist_white() +
     theme(axis.text.x = element_text(angle = 90))
 
-  return(get_cases_by_reported_date_and_case_type_plot)
+  return(create_cases_by_reported_date_and_case_type_plot)
 }

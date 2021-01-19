@@ -1,18 +1,18 @@
-#' Getting Case Interventions Table
+#' Creating Case Interventions Table
 #'
-#' This function takes the COVID-19 linelist data and returns a {gt} table
+#' This function takes the COVID-19 linelist data and returns a `gt` table
 #' indicating the number and proportion of cases ever or currently recieving
 #' interventions.
 #'
-#' @param get_tableau_linelist a tbl_df of COVID-19 linelist data
+#' @param create_external_tableau_linelist_data A `tbl_df` of COVID-19 external Tableau linelist data.
 #'
-#' @return a {gt} table of COVID-19 case interventions
+#' @return A `gt` table of COVID-19 case interventions.
 #' @export
 #'
 #' @examples
-#' getting_case_interventions_table(get_tableau_linelist)
-getting_case_interventions_table <- function(get_tableau_linelist) {
-  get_case_interventions_table <- get_tableau_linelist %>%
+#' `creating_case_interventions_table(create_external_tableau_linelist_data)`
+creating_case_interventions_table <- function(create_external_tableau_linelist_data) {
+  create_case_interventions_table <- create_external_tableau_linelist_data %>%
     tbl_summary(
       include = c("ever_hospitalized", "ever_in_icu", "ever_ventilated", "currently_hospitalized", "currently_in_icu", "currently_ventilated"),
       label = list(
@@ -55,5 +55,5 @@ getting_case_interventions_table <- function(get_tableau_linelist) {
     ) %>%
     tab_options(table.width = "80%")
 
-  return(get_case_interventions_table)
+  return(create_case_interventions_table)
 }

@@ -1,15 +1,15 @@
-#' Getting Assessments by Date and Weekday Plot
+#' Creating Assessments by Date and Weekday Plot
 #'
 #' This function creates a plot indicating the daily number of tests provided by assessment centres
 #' in the region with a fill indicating weekday versus weekend.
 #'
-#' @param clean_assessment_centre_data A tbl_df of our cleaned assessment centre data for the region
+#' @param clean_assessment_centre_data A `tbl_df` of our cleaned assessment centre data for the region.
 #'
-#' @return None
+#' @return A `ggplot` of the number of assessments by day and weekday.
 #' @export
 #'
 #' @examples
-#' getting_assessments_by_date_and_weekday_plot(clean_assessment_centre_data)
+#' `creating_assessments_by_date_and_weekday_plot(clean_assessment_centre_data)`
 getting_assessments_by_date_and_weekday_plot <- function(clean_assessment_centre_data) {
   palette <- c(
     rgb(
@@ -26,7 +26,7 @@ getting_assessments_by_date_and_weekday_plot <- function(clean_assessment_centre
     )
   )
 
-  get_assessments_by_date_and_weekday_plot <- clean_assessment_centre_data %>%
+  create_assessments_by_date_and_weekday_plot <- clean_assessment_centre_data %>%
     ggplot(aes(
       x = date,
       y = total,
@@ -52,5 +52,5 @@ getting_assessments_by_date_and_weekday_plot <- function(clean_assessment_centre
     ggthemes::theme_economist_white() +
     theme(axis.text.x = element_text(angle = 90))
 
-  return(get_assessments_by_date_and_weekday_plot)
+  return(create_assessments_by_date_and_weekday_plot)
 }

@@ -1,16 +1,16 @@
-#' Getting Age Group at Illness
+#' Creating Age Group at Illness
 #'
 #' This function takes the age at illness of a case and returns the age group at illness it belongs to.
 #'
-#' @param age_at_illness a numeric vector of ages at illness for cases
+#' @param age_at_illness A `numeric` vector of ages at illness for cases.
 #'
-#' @return a character vector of age groups at illness for cases
+#' @return A `character` vector of age groups at illness for cases.
 #' @export
 #'
 #' @examples
-#' getting_age_group_at_illness(age_at_illness)
-getting_age_group_at_illness <- function(age_at_illness) {
-  get_age_group_at_illness <- santoku::chop(
+#' `creating_age_group_at_illness(age_at_illness)`
+creating_age_group_at_illness <- function(age_at_illness) {
+  create_age_group_at_illness <- santoku::chop(
     x = age_at_illness,
     breaks = c(seq(0, 85, 5), Inf),
     labels = c(
@@ -35,5 +35,5 @@ getting_age_group_at_illness <- function(age_at_illness) {
     )
   )
 
-  return(get_age_group_at_illness)
+  return(create_age_group_at_illness)
 }

@@ -1,18 +1,18 @@
-#' Getting Case Type by Outcome Table
+#' Creating Case Type by Outcome Table
 #'
-#' This functions takes the COVID-19 linelist data and produces a {gt} table
+#' This functions takes the COVID-19 linelist data and produces a `gt` table
 #' with the number and proportion of cases by outcome and case type.
 #'
-#' @param get_tableau_linelist a tbl_df of COVID-19 linelist data
+#' @param create_external_tableau_linelist_data A `tbl_df` of COVID-19 external Tableau linelist data.
 #'
-#' @return a {gt} table of cases by outcome and case type
+#' @return A `gt`}table of cases by outcome and case type.
 #' @export
 #'
 #' @examples
-#' getting_case_type_by_outcome_table(get_tableau_linelist)
-getting_case_type_by_outcome_table <-
-  function(get_tableau_linelist) {
-    get_case_type_by_outcome_table <- get_tableau_linelist %>%
+#' `creating_case_type_by_outcome_table(create_external_tableau_linelist_data)`
+creating_case_type_by_outcome_table <-
+  function(create_external_tableau_linelist_data) {
+    create_case_type_by_outcome_table <- create_external_tableau_linelist_data %>%
       tbl_summary(
         include = c("adjusted_outcome", "case_type"),
         by = adjusted_outcome,
@@ -50,5 +50,5 @@ getting_case_type_by_outcome_table <-
       ) %>%
       tab_options(table.width = "80%")
 
-    return(get_case_type_by_outcome_table)
+    return(create_case_type_by_outcome_table)
   }

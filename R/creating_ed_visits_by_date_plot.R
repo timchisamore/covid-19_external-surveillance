@@ -1,18 +1,18 @@
-#' Getting ED Visits by Date Plot
+#' Creating ED Visits by Date Plot
 #'
 #' This function takes clean ACES ED visits data and plots the aggregate ED visits by
 #' date and a rolling 7-day average. It makes use of the aggregating_ed_visits_by_date
 #' function.
 #'
-#' @param clean_aces_ed_visits_data a tbl_df of clean ACES ED visits data
+#' @param clean_aces_ed_visits_data A `tbl_df` of clean ACES ED visits data.
 #'
-#' @return a {ggplot} of aggregate ED visits by date
+#' @return A `ggplot` of aggregate ED visits by date.
 #' @export
 #'
 #' @examples
-#' getting_ed_visits_by_date_plot(clean_aces_ed_visits_data)
-getting_ed_visits_by_date_plot <- function(clean_aces_ed_visits_data) {
-  get_ed_visits_by_date_plot <- aggregating_ed_visits_by_date(clean_aces_ed_visits_data) %>%
+#' `creating_ed_visits_by_date_plot(clean_aces_ed_visits_data)`
+creating_ed_visits_by_date_plot <- function(clean_aces_ed_visits_data) {
+  create_ed_visits_by_date_plot <- aggregating_ed_visits_by_date(clean_aces_ed_visits_data) %>%
     ggplot(aes(
       x = date,
       y = value,
@@ -54,5 +54,5 @@ getting_ed_visits_by_date_plot <- function(clean_aces_ed_visits_data) {
     ggthemes::theme_economist_white() +
     theme(axis.text.x = element_text(angle = 90))
 
-  return(get_ed_visits_by_date_plot)
+  return(create_ed_visits_by_date_plot)
 }
