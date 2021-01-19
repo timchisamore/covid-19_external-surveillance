@@ -4,14 +4,12 @@ library(drake)
 library(gt)
 library(gtsummary)
 library(padr)
-library(here)
 conflict_prefer("filter", "dplyr")
 conflict_prefer("lag", "dplyr")
-conflict_prefer("here", "here")
 dotenv::load_dot_env(here::here(".env"))
 set_gtsummary_theme(list(
   "tbl_summary-fn:percent_fun" = function(x) {
     scales::percent(x, accuracy = 1, suffix = NULL)
   }
 ))
-i_am("requirements.R")
+here::i_am("requirements.R")
