@@ -12,8 +12,10 @@
 #' aggregating_cases_by_reported_date_and_case_type(get_tableau_linelist)
 aggregating_cases_by_reported_date_and_case_type <- function(get_tableau_linelist) {
   aggregate_cases_by_reported_date_and_case_type <- get_tableau_linelist %>%
-    thicken(by = "reported_date",
-            interval = "day") %>%
+    thicken(
+      by = "reported_date",
+      interval = "day"
+    ) %>%
     count(
       reported_date_day,
       case_type
