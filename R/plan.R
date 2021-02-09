@@ -1,5 +1,5 @@
 plan <- drake_plan(
-  current_date = lubridate::today(),
+  current_date = target(lubridate::today(), trigger = trigger(change = digest::digest(lubridate::today(), algo = "md5"))),
   raw_ccm_investigations_data = reading_ccm_investigations_data(file_in(!!here::here("data", "raw", "ccm_investigations_data.csv"))),
   raw_ccm_outcomes_data = reading_ccm_outcomes_data(file_in(!!here::here("data", "raw", "ccm_outcomes_data.csv"))),
   raw_ccm_interventions_data = reading_ccm_interventions_data(file_in(!!here::here("data", "raw", "ccm_interventions_data.csv"))),
