@@ -1,5 +1,5 @@
 #' Getting Change in Case Count
-#' 
+#'
 #' This function returns the change in cases between the current case count
 #' and the previous case count and overwrites the old case count with the new
 #' case count.
@@ -16,6 +16,6 @@ getting_change_in_case_count <- function(get_tableau_linelist) {
   new_case_count <- nrow(get_tableau_linelist)
   get_change_in_case_count <- new_case_count - old_case_count
   saveRDS(new_case_count, here("data", "clean", "old_case_count.RDS"))
-  
+
   return(get_change_in_case_count)
 }
