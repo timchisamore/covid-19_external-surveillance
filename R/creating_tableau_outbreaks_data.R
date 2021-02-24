@@ -29,7 +29,7 @@ creating_tableau_outbreaks_data <- function(clean_ccm_outbreaks_data, clean_ccm_
       outbreak_status,
       disease,
       aetiologic_agent,
-      subtype,
+      outbreak_subtype,
       onset_date_time_of_index_case,
       reported_date,
       onset_date_time_of_last_case,
