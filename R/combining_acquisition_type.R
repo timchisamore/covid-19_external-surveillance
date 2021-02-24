@@ -36,6 +36,7 @@ combining_acquisition_type <-
     combine_acquisition_type <- case_when(
       epidemiologic_link_status == "Yes" ~ epidemiologic_linkage,
       epidemiologic_link_status == "No" ~ "No known epi-link",
+      epidemiologic_link_status == "Missing Information" ~ "Unknown or pending",
       is.na(epidemiologic_link_status) &
         episode_date < lubridate::ymd("2020-04-01") ~
       creating_early_acquisition_type(
