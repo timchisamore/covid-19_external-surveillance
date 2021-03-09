@@ -1,13 +1,13 @@
 #' Creating Close Contact
 #'
 #' This function takes a vector of investigation numbers and clean CCM risk factors data and returns
-#' a vector indicating whether the case was a close contact or household contact of a case.
+#' a vector indicating whether the case was a close contact of a case.
 #'
 #' @param investigation_number A `numeric` vector of investigation numbers.
 #' @param clean_ccm_investigations_data A `tbl_df` of clean CCM investigation data.
 #' @param clean_ccm_risk_factors_data A `tbl_df` of clean CCM risk factors data.
 #'
-#' @return A `character` vector indicating if the case was a close contact or household contact of a case.
+#' @return A `character` vector indicating if the case was a close contact of a case.
 #' @export
 #'
 #' @examples

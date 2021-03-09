@@ -1,59 +1,62 @@
-#' Combining Acquisition Type
+#' Combining acquisition types for all epidemiologic link statuses
 #'
-#' This function combines the acquisition types using the epidemiologic link status field to determine
-#' whether we generate the value or use the epidemiologic linkage field. if we generate the data, episode date
-#' is used to determine the logic. Prior to 2020/04/01, we use travel > outbreak related > close contact and
-#' afterwards we use outbreak related > close contact > travel.
+#' This function takes the epidemiologic link status of a case and determines
+#' what it's acquisition type is based on adjusted epidemiologic linkage, episode
+#' date, etc.
 #'
-#' @param investigation_number A `numeric` vector of investigation numbers.
-#' @param episode_date A `date` vector of episode dates.
-#' @param epidemiologic_link_status A `character` vector of epidemiologic link status.
-#' @param epidemiologic_linkage A `character` vector of epidemiologic linkages.
-#' @param clean_ccm_investigations_data A `tbl_df` of clean CCM investigations data.
-#' @param clean_ccm_outbreaks_data A `tbl_df` of clean CCM outbreaks data.
-#' @param clean_ccm_risk_factors_data A `tbl_df` of clean CCM risk factors data.
+#' @param epidemiologic_link_status A `character` indicating whether the case
+#' was epidemiologically linked to an outbreak, another case, or travel.
+#' @param adjusted_epidemiologic_linkage A `character` indicating which of the
+#' epidemiologic links the case had.
+#' @param episode_date A `POSIXct` which is a proxy for the onset of COVID-19
+#' @param outbreak_related A `character` indicating whether the case is related
+#' to an outbreak.
+#' @param close_contact_related A `character` indicating whether the case had
+#' close contact with another case.
+#' @param household_contact_related A `character` indicating whether the case
+#' had household contact with another case.
+#' @param travel_related A `character` indicating whether the case travelled
+#' outside of the province.
 #'
-#' @return A `character` vector of combined acquisition types.
+#' @return A `character` indicating the acquisition type of the case.
 #' @export
 #'
 #' @examples
-#' `combining_acquisition_type(investigation_number, episode_date, epidemiologic_link_status, epidemiologic_linkage, clean_ccm_investigations_data, clean_ccm_outbreaks_data, clean_ccm_risk_factors_data)`
+#' `combining_acquisition_type(epidemiologic_link_status, adjusted_epidemiologic_linkage, episode_date, outbreak_related, close_contact_related, household_contact_related, travel_related)`
 combining_acquisition_type <-
-  function(investigation_number,
+  function(epidemiologic_link_status,
+           adjusted_epidemiologic_linkage,
            episode_date,
-           epidemiologic_link_status,
-           epidemiologic_linkage,
-           clean_ccm_investigations_data,
-           clean_ccm_outbreaks_data,
-           clean_ccm_risk_factors_data) {
-    # lumping household contact into close contact
-    epidemiologic_linkage <-
-      str_replace_all(epidemiologic_linkage, "Household contact", "Close contact")
-
-    # accounting for the new epidemiological link status field, if the record has a value, we use
-    # the epidemiologic linkage, if the answer is no, we use no known epi-link, if the answer
-    # is null, we use the getting_acquisition_type functions to determine it.
-    combine_acquisition_type <- case_when(
-      epidemiologic_link_status == "Yes" ~ epidemiologic_linkage,
-      epidemiologic_link_status == "No" ~ "No known epi-link",
-      epidemiologic_link_status == "Missing Information" ~ "Unknown or pending",
-      is.na(epidemiologic_link_status) &
-        episode_date < lubridate::ymd("2020-04-01") ~
-      creating_early_acquisition_type(
-        investigation_number,
-        clean_ccm_investigations_data,
-        clean_ccm_outbreaks_data,
-        clean_ccm_risk_factors_data
-      ),
-      is.na(epidemiologic_link_status) &
-        episode_date >= lubridate::ymd("2020-04-01") ~
-      creating_late_acquisition_type(
-        investigation_number,
-        clean_ccm_investigations_data,
-        clean_ccm_outbreaks_data,
-        clean_ccm_risk_factors_data
+           outbreak_related,
+           close_contact_related,
+           household_contact_related,
+           travel_related) {
+    combined_acquisition_type <-
+      case_when(
+        epidemiologic_link_status == "Yes" ~ creating_acquisition_epi_link_status_yes(
+          adjusted_epidemiologic_linkage,
+          episode_date,
+          outbreak_related,
+          close_contact_related,
+          household_contact_related,
+          travel_related
+        ),
+        epidemiologic_link_status == "No" ~ creating_acquisition_epi_link_status_no(
+          episode_date,
+          outbreak_related,
+          close_contact_related,
+          household_contact_related,
+          travel_related
+        ),
+        (is.na(epidemiologic_link_status) |
+          epidemiologic_link_status == "Missing Information") ~ creating_acquisition_epi_link_status_missing(
+          episode_date,
+          outbreak_related,
+          close_contact_related,
+          household_contact_related,
+          travel_related
+        )
       )
-    )
 
-    return(combine_acquisition_type)
+    return(combined_acquisition_type)
   }
