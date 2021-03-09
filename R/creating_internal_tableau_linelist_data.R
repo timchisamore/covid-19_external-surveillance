@@ -107,14 +107,38 @@ creating_internal_tableau_linelist_data <-
           clean_ccm_investigations_data,
           clean_ccm_interventions_data
         ),
-        acquisition_type = combining_acquisition_type(
+        outbreak_related = creating_outbreak_related(
           investigation_number,
-          episode_date,
-          epidemiologic_link_status,
-          epidemiologic_linkage,
           clean_ccm_investigations_data,
-          clean_ccm_outbreaks_data,
+          clean_ccm_outbreaks_data
+        ),
+        close_contact_related = creating_close_contact(
+          investigation_number,
+          clean_ccm_investigations_data,
           clean_ccm_risk_factors_data
+        ),
+        household_contact_related = creating_household_contact(
+          investigation_number,
+          clean_ccm_investigations_data,
+          clean_ccm_risk_factors_data
+        ),
+        travel_related = creating_travel(
+          investigation_number,
+          clean_ccm_investigations_data,
+          clean_ccm_risk_factors_data
+        ),
+        adjusted_epidemiologic_linkage = creating_adjusted_epidemiologic_linkage(
+          epidemiologic_link_status,
+          epidemiologic_linkage
+        ),
+        acquisition_type = combining_acquisition_type(
+          epidemiologic_link_status,
+          adjusted_epidemiologic_linkage,
+          episode_date,
+          outbreak_related,
+          close_contact_related,
+          household_contact_related,
+          travel_related
         )
       ) %>%
       select(
