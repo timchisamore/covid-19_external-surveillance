@@ -1,11 +1,12 @@
 #' Getting Palette
-#' 
+#'
 #' This function returns a palette specific for the organizaton developed by staff.
 #'
 #' @return A `character` vector of five RGB values.
 #' @export
 #'
-#' @examples `getting_palette()`
+#' @examples
+#' `getting_palette()`
 getting_palette <- function() {
   get_palette <- c(
     rgb(
@@ -39,6 +40,6 @@ getting_palette <- function() {
       maxColorValue = 255
     )
   )
-  
+
   return(get_palette)
 }
