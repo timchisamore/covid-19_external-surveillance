@@ -1,7 +1,8 @@
 #' Cleaning CCM Outbreaks Data
 #'
 #' This function takes the raw CCM outbreaks data and cleans the field names, removes
-#' empty fields, and coverts date objects to lubridate date objects.
+#' empty fields, and coverts date objects to lubridate date objects. Using
+#' the `iconv()` function to convert French characters to ASCII.
 #'
 #' @param raw_ccm_outbreaks_data A tbl_df of our CCM outbreaks data
 #'
@@ -16,7 +17,8 @@ cleaning_ccm_outbreaks_data <- function(raw_ccm_outbreaks_data) {
     janitor::clean_names() %>%
     mutate(
       across(.cols = contains("date"), .fns = str_remove_all, pattern = "\\."),
-      across(.cols = contains("date"), .fns = lubridate::parse_date_time, orders = c("%Y-%m-%d, %H:%M %p", "%Y-%m-%d"))
+      across(.cols = contains("date"), .fns = lubridate::parse_date_time, orders = c("%Y-%m-%d, %H:%M %p", "%Y-%m-%d")),
+      location_location_name = iconv(location_location_name, to = 'ASCII//TRANSLIT')
     )
 
   return(clean_ccm_outbreaks_data)
