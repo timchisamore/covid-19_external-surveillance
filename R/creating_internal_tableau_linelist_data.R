@@ -167,7 +167,8 @@ creating_internal_tableau_linelist_data <-
         currently_in_icu,
         currently_ventilated,
         currently_interventions,
-        acquisition_type
+        acquisition_type,
+        investigation_subtype
       )
 
     return(create_internal_tableau_linelist_data)
