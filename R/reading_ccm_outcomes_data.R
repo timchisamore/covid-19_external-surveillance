@@ -20,8 +20,8 @@ reading_ccm_outcomes_data <- function(ccm_outcomes_path) {
       `Investigation Number` = col_character(),
       `Outcome` = col_character(),
       `Outcome date` = col_date(format = "%Y-%m-%d"),
-      `Date of Death` = col_date(format = "%Y-%m-%d"),
-      `Type of Death` = col_factor()
+      `Type of Death` = col_factor(),
+      `Date of Death` = col_date(format = "%Y-%m-%d")
     )
   )
 

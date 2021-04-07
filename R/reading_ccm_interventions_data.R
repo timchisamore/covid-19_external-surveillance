@@ -18,10 +18,13 @@ reading_ccm_interventions_data <- function(ccm_interventions_path) {
     col_names = TRUE,
     col_types = cols(
       `Investigation Number` = col_character(),
+      `Intervention: Record Type` = col_factor(),
       `Intervention` = col_character(),
       `Intervention Information` = col_character(),
+      `Intervention - other` = col_character(),
       `Start Date` = col_date(format = "%Y-%m-%d"),
-      `End Date` = col_date(format = "%Y-%m-%d")
+      `End Date` = col_date(format = "%Y-%m-%d"),
+      `Hospital Name` = col_character()
     )
   )
 

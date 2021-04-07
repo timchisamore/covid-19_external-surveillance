@@ -18,7 +18,6 @@ reading_ccm_risk_factors_data <- function(ccm_risk_factors_path) {
     col_names = TRUE,
     col_types = cols(
       `Investigation Number` = col_character(),
-      `IPHIS Case ID` = col_character(),
       `Record Type` = col_factor(),
       `Risk Factor` = col_character(),
       `Additional Risk Factor Information` = col_character(),

@@ -33,7 +33,6 @@ reading_ccm_investigations_data <-
           `Investigation Record Type` = col_factor(),
           `Classification` = col_factor(),
           `Disposition` = col_factor(),
-          `Closed Reason` = col_factor(),
           `Status` = col_character(),
           `Epidemiologic link Status` = col_character(),
           `Epidemiologic linkage` = col_character(),
