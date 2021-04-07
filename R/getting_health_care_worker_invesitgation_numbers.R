@@ -34,12 +34,8 @@ getting_health_care_worker_investigation_numbers <-
           "Respiratory therapist",
           "First responder"
         )
-      )
-      &
-        ((
-          !is.na(iphis_case_id) &
-            fct_match(additional_risk_factor_information, "YES")
-        ) | is.na(iphis_case_id))) %>%
+      ),
+      additional_risk_factor_information == "YES") %>%
       pull(investigation_number)
 
     # ensuring all of our generated investigation numbers are valid

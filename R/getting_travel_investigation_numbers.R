@@ -18,14 +18,8 @@ getting_travel_investigation_numbers <- function(clean_ccm_investigations_data, 
 
   get_travel_investigation_numbers <- clean_ccm_risk_factors_data %>%
     filter(
-      risk_factor == "Travel outside province in the last 14 days (specify province or country)" &
-        (
-          is.na(iphis_case_id) |
-            (
-              !is.na(iphis_case_id) &
-                additional_risk_factor_information == "YES"
-            )
-        )
+      risk_factor == "Travel outside province in the last 14 days (specify province or country)",
+      additional_risk_factor_information == "YES"
     ) %>%
     pull(investigation_number)
 

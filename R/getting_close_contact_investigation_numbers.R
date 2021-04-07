@@ -18,14 +18,8 @@ getting_close_contact_investigation_numbers <- function(clean_ccm_investigations
 
   get_close_contact_investigation_numbers <- clean_ccm_risk_factors_data %>%
     filter(
-      risk_factor == "Close contact with a case" &
-        (
-          is.na(iphis_case_id) |
-            (
-              !is.na(iphis_case_id) &
-                additional_risk_factor_information == "YES"
-            )
-        )
+      risk_factor == "Close contact with a case",
+      additional_risk_factor_information == "YES"
     ) %>%
     pull(investigation_number)
 
