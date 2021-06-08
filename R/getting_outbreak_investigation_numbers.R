@@ -17,16 +17,14 @@ getting_outbreak_related_investigation_numbers <- function(clean_ccm_investigati
     pull(investigation_number)
 
   # extracting all CCM investigation outbreak names
-  outbreak_numbers <- clean_ccm_outbreaks_data %>%
+  outbreak_names <- clean_ccm_outbreaks_data %>%
     pull(outbreak_name) %>%
     unique()
 
-  # we need to account for there being both iPHIS outbreak numbers and CCM outbreak names in the investigation
-  # outbreak field. This will remove the cases with a sporadic outbreak number from iPHIS, remove the cases with
-  # a null value from CCM, and remove those with an invalid value from CCM.
+  # with the migration of outbreaks from iPHIS into CCM, we no longer need to
+  # specify between the two.
   get_outbreak_related_investigation_numbers <- clean_ccm_investigations_data %>%
-    mutate(iphis_outbreak = if_else(str_detect(investigation_outbreak, pattern = "^[0-9]{4}-[0-9]{4}-[0-9]{3}$"), "Yes", "No")) %>%
-    filter((iphis_outbreak == "Yes" & investigation_outbreak != "0000-2020-001") | (iphis_outbreak == "No" & investigation_outbreak %in% outbreak_numbers)) %>%
+    filter(investigation_outbreak %in% outbreak_names) %>%
     pull(investigation_number)
 
   # ensuring all of our generated investigation numbers are valid
