@@ -1,33 +1,33 @@
-#' Cleaning Assessment Centre Data
+#' Cleaning assessment centre data
 #'
-#' This function takes the assessment centre data and cleans it by removing empty columns,
-#' formatting the field names, removing two unnecessary fields, creating a field to indicate
-#' whether the date falls on a weekday or weekend, and pivoting too a long format.
+#' This function takes the raw assessment centre data and cleans it by
+#' formatting the field names, removing an uneccessary field, summarising by
+#' date, and creating a field to indicate whether the date falls on a weekday or
+#' weekend.
 #'
-#' @param raw_assessment_centre_data A tbl_df of the assessment centre data that we need to clean
+#' @param raw_assessment_centre_data A tbl_df of the assessment centre data.
 #'
-#' @return A tbl_df of our cleaned and formatted assessment centre data
+#' @return A tbl_df of our cleaned and formatted assessment centre data.
 #' @export
 #'
 #' @examples
-#' cleaning_assessment_centre_data(raw_assessment_centre_data)
+#' `cleaning_assessment_centre_data(raw_assessment_centre_data)`
 cleaning_assessment_centre_data <-
   function(raw_assessment_centre_data) {
     clean_assessment_centre_data <- raw_assessment_centre_data %>%
-      janitor::remove_empty(which = "cols") %>%
       janitor::clean_names() %>%
-      select(-c(assessments_completed, test_completed)) %>%
-      pivot_wider(
-        names_from = community,
-        values_from = number,
-        values_fill = 0
-      ) %>%
-      rowwise() %>%
-      transmute(date, total = sum(c_across(cols = c(`Smiths Falls`, Brockville, Almonte)))) %>%
+      select(-swabs_available) %>%
+      mutate(date = lubridate::as_datetime(date)) %>%
+      padr::thicken(by = "date",
+                    interval = "day") %>%
+      group_by(date_day) %>%
+      summarise(swabs_used = sum(swabs_used, na.rm = TRUE),
+                .groups = "drop") %>%
+      padr::fill_by_value(swabs_used, value = 0) %>%
+      rename(date = date_day) %>%
       mutate(
-        date = lubridate::ymd(date),
         weekday = case_when(
-          lubridate::wday(date) %in% 2:6 ~ "Weekday",
+          between(lubridate::wday(date), 2, 6) ~ "Weekday",
           TRUE ~ "Weekend"
         )
       )
