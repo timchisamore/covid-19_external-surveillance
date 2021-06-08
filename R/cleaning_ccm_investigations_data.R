@@ -13,7 +13,6 @@
 #' cleaning_ccm_investigations_data(raw_ccm_investigations_data)
 cleaning_ccm_investigations_data <- function(raw_ccm_investigations_data) {
   clean_ccm_investigations_data <- raw_ccm_investigations_data %>%
-    janitor::remove_empty(which = "cols") %>%
     janitor::clean_names() %>%
     mutate(
       across(.cols = c(contains("date"), -episode_date_type), .fns = str_remove_all, pattern = "\\."),
